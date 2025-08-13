@@ -4,8 +4,10 @@
 
 ## Introduction
 This repository contains practice projects and exercises for learning and exploring ROS 2.
-ROS 2 Humble is officially supported on Ubuntu 22.04 (Jammy) only, so first check Ubuntu version with `lsb_release -a
-`
+ROS 2 Humble is officially supported on Ubuntu 22.04 (Jammy) only, so first check Ubuntu version with:
+```bash
+lsb_release -a
+``
 ## Installing Ros2
 
 ### Setting up system for ROS 2
