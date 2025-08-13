@@ -63,4 +63,131 @@ sudo apt install python3-ament-lint python3-ament-lint-cmake
 ```bash
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-``
+```
+
+
+## ROS 2 on Shared Networks — Setup Guide
+
+> To Configure `ROS_DOMAIN_ID` and `ROS_LOCALHOST_ONLY` correctly so that the ROS 2 nodes don’t collide with other peoples nodes on a shared LAN.
+---
+
+- **Solo on one machine?**  
+  Put `ROS_LOCALHOST_ONLY=1` (loopback only). Pick any `ROS_DOMAIN_ID` to avoid collisions.
+- **Working across multiple PCs?**  
+  Use `ROS_LOCALHOST_ONLY=0` and agree on a unique `ROS_DOMAIN_ID` for all people in the group.
+
+---
+
+## Picking a Unique Domain ID
+
+Choose a number **0–232** that no other nearby group uses.
+
+```bash
+# Example
+export ROS_DOMAIN_ID=42
+```
+
+
+
+Nodes **only** discover each other when their `ROS_DOMAIN_ID` matches.
+---
+
+## Apply Settings
+
+```bash
+# Solo (local-only):
+export ROS_LOCALHOST_ONLY=1
+
+# OR Team (LAN):
+# export ROS_LOCALHOST_ONLY=0
+
+# Always set a domain in shared environments:
+export ROS_DOMAIN_ID=42   # <-- change to your group's chosen ID
+
+# Refresh discovery (optional but handy):
+ros2 daemon stop || true
+```
+
+---
+
+## Make It Persistent
+
+Append to your shell startup file.
+
+```bash
+# For bash:
+echo 'export ROS_LOCALHOST_ONLY=1' >> ~/.bashrc   # or 0 if multi-machine
+echo 'export ROS_DOMAIN_ID=42' >> ~/.bashrc
+source ~/.bashrc
+
+# For zsh:
+# echo 'export ROS_LOCALHOST_ONLY=1' >> ~/.zshrc
+# echo 'export ROS_DOMAIN_ID=42' >> ~/.zshrc
+# source ~/.zshrc
+```
+
+---
+
+## Verify
+
+```bash
+printenv ROS_LOCALHOST_ONLY
+printenv ROS_DOMAIN_ID
+ros2 daemon stop
+```
+
+---
+
+## 6) Quick Functional Test (Single Machine)
+
+Open **Terminal A** (with the env vars set):
+
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+Open **Terminal B** (same env vars):
+
+```bash
+ros2 run demo_nodes_cpp listener
+```
+
+The output will be:
+
+```
+I heard: "Hello World: N"
+```
+
+---
+
+##  Multi‑Machine Test (Team on the Same LAN)
+
+On **every machine**:
+
+- Same `ROS_DOMAIN_ID` (e.g., `42`)
+- `ROS_LOCALHOST_ONLY=0`
+- Same network (no VPN between you; same Wi‑Fi/Ethernet segment)
+- Firewalls allow DDS discovery/traffic on the LAN
+
+**Test:**
+
+```bash
+# Machine A:
+ros2 run demo_nodes_cpp talker
+
+# Machine B:
+ros2 topic echo /chatter
+
+# Machine C (optional):
+ros2 node list
+```
+
+You should see `/talker` and `/listener` and messages on `/chatter`.
+
+
+
+
+
+
+
+
