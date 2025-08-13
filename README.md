@@ -33,7 +33,7 @@ echo "deb [arch=$(dpkg --print-architecture) \
 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
 http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" \
 | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-``
+```
 
 ## Installing Ros2 along with essential pakages
 ```bash
@@ -141,7 +141,7 @@ ros2 daemon stop
 
 ---
 
-## 6) Quick Functional Test (Single Machine)
+## Quick Functional Test (Single Machine)
 
 Open **Terminal A** (with the env vars set):
 
