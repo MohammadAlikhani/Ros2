@@ -1,5 +1,5 @@
 # Ros2
-> **Author:** Mohammad Alikhani Najafabadi — mohammad.najafabadi@estudiantat.upc.edu  
+> **Author:** Marco Alikhani Najafabadi   
 > **Date:** 13 August 2025
 
 ## Introduction
