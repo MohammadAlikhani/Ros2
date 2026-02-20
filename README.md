@@ -1,5 +1,5 @@
 # Ros2
-> **Author:** Marco Alikhani Najafabadi   
+> **Author:** Mohammad Alikhani Najafabadi   
 > **Date:** 13 August 2025
 
 ## Introduction
